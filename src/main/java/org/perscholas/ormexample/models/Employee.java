@@ -7,6 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,6 +30,11 @@ import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "emp")
+@NamedQueries({
+	@NamedQuery(name = "getAll", query = "from Employee"),
+	@NamedQuery(name = "getById", query = "from Employee where id = :id"),
+	@NamedQuery(name = "getName", query = "select name from Employee where id = :id")
+})
 public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +46,8 @@ public class Employee {
 	Date dob;
 	@NonNull
 	String password;
+	
+	@ManyToOne
+	Department dep;
 	
 }
