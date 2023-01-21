@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -33,7 +34,8 @@ import lombok.experimental.FieldDefaults;
 @NamedQueries({
 	@NamedQuery(name = "getAll", query = "from Employee"),
 	@NamedQuery(name = "getById", query = "from Employee where id = :id"),
-	@NamedQuery(name = "getName", query = "select name from Employee where id = :id")
+	@NamedQuery(name = "getName", query = "select name from Employee where id = :id"),
+	@NamedQuery(name = "getDept", query = "from Department d,Employee e where e.id=1 ")
 })
 public class Employee {
 	@Id
@@ -46,8 +48,9 @@ public class Employee {
 	Date dob;
 	@NonNull
 	String password;
-	
+	@NonNull
 	@ManyToOne
+	@JoinColumn(name = "depId")
 	Department dep;
 	
 }

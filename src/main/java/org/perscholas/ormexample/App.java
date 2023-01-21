@@ -40,15 +40,41 @@ public class App {
 		} catch (Throwable ex) {
 			ex.printStackTrace();
 		}
+		
+		
 
 		Transaction tx = null;
+	    Department d = new Department("MATH");
+        Department d1= new Department("SOCIAL");
+		
+		Session session1 = factory.openSession();
+		try {
+
+			tx = session1.beginTransaction();
+	
+			// persist mode
+			session1.persist(d);
+			session1.persist(d1);
+			
+
+			tx.commit();
+		} catch (HibernateException ex) {
+
+			ex.printStackTrace();
+			tx.rollback();
+
+		} finally {
+			session1.close();
+
+		}
 		Session session = factory.openSession();
 		try {
 
 			tx = session.beginTransaction();
 			// transient mode
-			Employee e = new Employee("jafer", new Date(), "password");
-			Employee e2 = new Employee("jafer", new Date(), "password");
+		 
+			Employee e = new Employee("jafer", new Date(), "password",d1);
+			Employee e2 = new Employee("jafer", new Date(), "password",d);
 
 			// persist mode
 			session.persist(e);
@@ -65,29 +91,7 @@ public class App {
 			session.close();
 
 		}
-		Session session1 = factory.openSession();
-		try {
 
-			tx = session1.beginTransaction();
-			// transient mode
-            Department d = new Department("MATH");
-            Department d1= new Department("SOCIAL");
-
-			// persist mode
-			session1.persist(d);
-			session1.persist(d1);
-			
-
-			tx.commit();
-		} catch (HibernateException ex) {
-
-			ex.printStackTrace();
-			tx.rollback();
-
-		} finally {
-			session1.close();
-
-		}
 
 		Session session2 = factory.openSession();
 			try {
@@ -101,6 +105,8 @@ public class App {
 			Object obj = session2.createNamedQuery("getName", Object.class).setParameter("id",1).getSingleResult();
             System.out.println((String)obj);
             
+            Object obj1 = session2.createNamedQuery("getDept", Object.class).getSingleResult();
+            System.out.println(obj1);
             
             
             
