@@ -1,16 +1,21 @@
 package org.perscholas.ormexample.models;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -32,7 +37,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity
-@Table(name = "emp")
 @NamedQueries({
 	@NamedQuery(name = "getAll", query = "from Employee"),
 	@NamedQuery(name = "getById", query = "from Employee where id = :id")
@@ -51,8 +55,20 @@ public class Employee {
 	@NonNull
 	String password;
 	
-	@ManyToMany
-	List<Department> dep;
+	@ToString.Exclude
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},
+			fetch = FetchType.LAZY)
+	
+	@JoinTable(name="emp_dep_jointable",
+	joinColumns = @JoinColumn(name="emp_id"),
+	inverseJoinColumns = @JoinColumn(name="dep_id"))
+	List<Department> dep = new LinkedList<Department>();
+	
+	public void addDepartment(Department d) {
+		dep.add(d);
+		d.getEmp().add(this);
+		
+	}
 
 	
 }
