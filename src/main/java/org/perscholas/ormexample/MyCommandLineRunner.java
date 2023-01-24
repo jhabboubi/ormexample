@@ -1,5 +1,6 @@
 package org.perscholas.ormexample;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.perscholas.ormexample.models.Department;
@@ -16,10 +17,10 @@ public class MyCommandLineRunner {
     	DepartmentService ds = new DepartmentService();
     	
     	
-    	es.createOrUpateEmp(new Employee("jafer", new Date(),"password"));
-    	es.createOrUpateEmp(new Employee("tim", new Date(),"password"));
-    	es.createOrUpateEmp(new Employee("jenny", new Date(),"password"));
-    	es.createOrUpateEmp(new Employee("elon", new Date(),"password"));
+    	es.createOrUpateEmp(new Employee("jafer", LocalDate.of(2000, 1, 10),"password"));
+    	es.createOrUpateEmp(new Employee("tim", LocalDate.of(2000, 2, 10),"password"));
+    	es.createOrUpateEmp(new Employee("jenny", LocalDate.of(2000, 3, 10),"password"));
+    	es.createOrUpateEmp(new Employee("elon", LocalDate.of(2000, 4, 10),"password"));
     	ds.createOrUpateDep(new Department(1, "IT"));
     	ds.createOrUpateDep(new Department(2, "Marketing"));
     	ds.createOrUpateDep(new Department(3, "Management"));

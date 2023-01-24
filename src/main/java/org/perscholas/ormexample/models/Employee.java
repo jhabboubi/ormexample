@@ -1,8 +1,10 @@
 package org.perscholas.ormexample.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -30,7 +32,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
@@ -51,13 +55,13 @@ public class Employee {
 	@Column(columnDefinition = "varchar(50)")
 	String name;
 	@NonNull
-	Date dob;
+	LocalDate dob;
 	@NonNull
 	String password;
 	
 	@ToString.Exclude
 	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},
-			fetch = FetchType.LAZY)
+			fetch = FetchType.EAGER)
 	
 	@JoinTable(name="emp_dep_jointable",
 	joinColumns = @JoinColumn(name="emp_id"),
@@ -69,6 +73,34 @@ public class Employee {
 		d.getEmp().add(this);
 		
 	}
+
+	public Employee(int id, @NonNull String name, @NonNull LocalDate dob, @NonNull String password) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.dob = dob;
+		this.password = password;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		return Objects.equals(dob, other.dob) && id == other.id && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(dob, id, name, password);
+	}
+
+
 
 	
 }
