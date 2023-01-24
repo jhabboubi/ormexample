@@ -1,6 +1,10 @@
 package org.perscholas.ormexample.models;
 
+<<<<<<< HEAD
 import java.time.LocalDate;
+=======
+import java.util.ArrayList;
+>>>>>>> 3fbc0cf9150e3e3c3b25ead8f82c9557841fb6bd
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,6 +64,7 @@ public class Employee {
 	String password;
 	
 	@ToString.Exclude
+<<<<<<< HEAD
 	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},
 			fetch = FetchType.EAGER)
 	
@@ -67,10 +72,20 @@ public class Employee {
 	joinColumns = @JoinColumn(name="emp_id"),
 	inverseJoinColumns = @JoinColumn(name="dep_id"))
 	List<Department> dep = new LinkedList<Department>();
+=======
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE,CascadeType.DETACH},
+			fetch = FetchType.EAGER)
+	@JoinTable(name = "emp_dep_jointable",
+	joinColumns = @JoinColumn(name="employee_id"),
+	inverseJoinColumns = @JoinColumn(name="department_id"))
+	List<Department> dep = new ArrayList<>();
+	
+>>>>>>> 3fbc0cf9150e3e3c3b25ead8f82c9557841fb6bd
 	
 	public void addDepartment(Department d) {
 		dep.add(d);
 		d.getEmp().add(this);
+<<<<<<< HEAD
 		
 	}
 
@@ -101,6 +116,10 @@ public class Employee {
 	}
 
 
+=======
+			
+	}
+>>>>>>> 3fbc0cf9150e3e3c3b25ead8f82c9557841fb6bd
 
 	
 }

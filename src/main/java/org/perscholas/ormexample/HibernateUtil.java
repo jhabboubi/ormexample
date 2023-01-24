@@ -17,7 +17,7 @@ public class HibernateUtil {
 	public static void connection() {
 try {
     		
-    		// configuration
+    		// configuration comment
     			Configuration conf = new Configuration().
     					configure(new File
     							("src/main/java/org/perscholas/ormexample/hibernate.cfg.xml"));
